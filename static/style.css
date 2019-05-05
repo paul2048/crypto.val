@@ -1,0 +1,174 @@
+body {
+    color: #fff !important;
+    background-color: #1d2330 !important;
+}
+
+.form-control, select {
+    background: #282E3B !important;
+    color: #fff !important;
+    border: 1px solid #444 !important;
+}
+
+#logo {
+    font-family: Courier;
+    font-size: 28px;
+    user-select: none;
+}
+
+#logo span {
+    color: crimson;
+}
+
+#btn_login, #btn_portf, .navbar-toggler, a[href="/settings"] {
+    margin-left: 16px;
+}
+
+#profile_pic {
+    width: 50px;
+}
+
+#coin_search, div[role=presentation] {
+    width: 250px;
+}
+
+/* Typeahead's result `div` */
+div[role=presentation] {
+    background: #1d2330f8;
+    border-radius: 0 0 8px 8px;
+}
+
+div[role=presentation] a {
+    text-decoration: none;
+}
+
+div[role=presentation] a div {
+    color: #fff;
+    padding: 5px 20px;
+}
+
+div[role=presentation] a div:hover {
+    background: #fff;
+    color: black;
+}
+
+#chg_pass_btn, #chg_email_btn, #chg_pp_btn {
+    width: 200px;
+    margin-top: 10px;
+}
+
+.heart {
+    cursor: pointer;
+    transition: .4s;
+}
+
+.heart:hover {
+    opacity: .7;
+}
+
+.heart.followed {
+    transform: rotate(360deg);
+}
+
+.up      { color: #00b600 }
+.down    { color: #fb0000 }
+.neutral { color: #f6fb22 }
+
+#coin-details-cont img:nth-child(1) {
+    width: 40px;
+    margin-top: -6px;
+}
+
+.coin-block, .settings-block {
+    border: .5px solid #334455;
+    padding: 20px;
+    cursor: default;
+    transition: .3s;
+}
+
+.coin-block:hover, .settings-block:hover {
+    background: #334455;
+}
+
+/* Set margin for fields like Price, Volume (24h), etc. in the "/coin" page */
+.coin-block .col-6 {
+    margin-bottom: 10px;
+}
+
+/* Fixes padding problem on "/news" */
+.container.bg-dark {
+    padding: 15px;
+}
+
+#coin_search_portf {
+    text-transform: uppercase;
+}
+
+@media only screen and (min-width: 991.5px) {
+    #form_portf button {
+        width: 100% !important;
+    }
+}
+
+/* Make the input fields smaller for small screen size */
+@media only screen and (max-width: 767.5px) {
+    #form_portf input {
+        width: 200px !important;
+    }
+
+    #form_portf button {
+        width: 200px !important;
+    }
+}
+
+#form_portf input {
+    width: 250px;
+}
+
+#form_portf button {
+    width: 250px;
+}
+
+#form_portf .row > div {
+    margin: 5px 0;
+}
+
+#news-form button {
+    width: 100%;
+}
+
+/* Make the news form responsive */
+@media only screen and (max-width: 767.5px) {
+    #news-form button {
+        margin-top: 10px;
+    }
+}
+
+#table_topcoins a, #table_followed a, #news-container a {
+    text-decoration: none;
+    color: #fff;
+}
+
+/* Make the tables invisible and display one in JS (from localStorage) */
+#table_topcoins, #table_followed {
+    display: none;
+}
+
+.news-block {
+    background: #1d2330;
+    border: 1px solid #666;
+    border-radius: 8px;
+    margin: 20px 0px;
+    padding: 20px;
+    transition: .3s;
+}
+
+.news-block img {
+    object-fit: cover;
+    width: 180px;
+    height: 180px;
+    border-radius: 8px;
+}
+
+.news-desc {
+    margin-top: 20px;
+}

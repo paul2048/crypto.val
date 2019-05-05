@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <!-- https://developer.mozilla.org/en-US/docs/Web/HTML/Element/meta -->
+    <meta charset="utf-8"/>
+    <meta content="initial-scale=1, width=device-width" name="viewport"/>
+
+    <!-- General Style -->
+    <link rel="stylesheet" href="/static/style.css">
+    <!-- Bootstrap Style -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <!-- Favicon (doesn't work) -->
+    <link rel="shortcut icon" href="">
+
+    <!-- General Scripts -->
+    <script src="/static/scripts.js"></script>
+    <!-- JQuery -->
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+    <!-- Bootstrap Scripts -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <!-- Handlebars -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.5/handlebars.min.js"></script>
+    <!-- Typeahead -->
+    <script src="https://cdn.rawgit.com/corejavascript/typeahead.js/master/dist/typeahead.jquery.js"></script>
+
+    <title>crypto.val() - {% block title %}{% endblock %}</title>
+</head>
+
+<body>
+    <!-- HEADER -->
+    <header class="container head-wrap sticky-with-shadow">
+        <nav class="navbar navbar-expand-lg navbar-fixed-top navbar-dark bg-dark">
+            <a class="navbar-brand" id="logo" href="/">
+                crypto.<span>val</span>()</span>
+            </a>
+            {% if session.user_id %}
+                <a class="ml-auto" href="/signout">
+                    <button class="btn btn-danger" id="signout_btn">Sign Out</button>
+                </a>
+                <a href="/settings">
+                    <img class="rounded-circle" id="profile_pic" src="/static/profile_pics/default.jpg" alt="profilePic">
+                </a>
+            {% else %}
+                <button class="btn btn-dark ml-auto" data-toggle="modal" data-target="#my_modal" id="btn_register">Register</button>
+                <button class="btn btn-dark" data-toggle="modal" data-target="#my_modal" id="btn_login">Login</button>
+            {% endif %}
+            <button class="navbar-toggler" data-toggle="collapse" data-target="#navbar_nav" aria-controls="navbar_nav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+        </nav>
+
+        <nav class="navbar navbar-expand-lg navbar-fixed-top navbar-dark bg-dark">
+            <div class="collapse navbar-collapse" id="navbar_nav">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item">
+                        <a href="/" class="nav-link">HOME</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="javascript:;" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">COINS</a>
+                        <div class="dropdown-menu" id="top10coins"></div>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/portfolio" class="nav-link">PORTFOLIO</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/news" class="nav-link">NEWS</a>
+                    </li>
+                </ul>
+            </div>
+
+            <div>
+                <form class="ml-auto" method="GET">
+                    <input class="form-control" id="coin_search" placeholder="coin">
+                </form>
+            </div>
+        </nav>
+    </header>
+
+    <!-- MIDDLE -->
+    <div class="container" id="middle">
+        <!-- Login and Register pop-ups -->
+        {% if not session.user_id %}
+            <div class="modal fade" id="my_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content bg-dark" id="modal_register">
+                        <div class="modal-header">
+                            <h4>Register</h4>
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        </div>
+
+                        <div class="modal-body">
+                            <form method="POST" id="form_register" action="/register" novalidate>
+                                <!-- Hidden input to let Flask know which form was submitted -->
+                                <input type="hidden" name="register_login" value="register">
+                                <div class="form-group">
+                                    <label>Username:</label>
+                                    <input type="text" name="username" class="form-control" maxlength="22" autocomplete="off">
+                                </div>
+                                <div class="form-group">
+                                    <label>E-mail:</label>
+                                    <input type="email" name="email" class="form-control" autocomplete="off">
+                                </div>
+                                <div class="form-group">
+                                    <label>Password:</label>
+                                    <input type="password" name="password" class="form-control">
+                                    <span class="help-block small">Requirements:
+                                        <ul>
+                                            <li>at least 8 characters long</li>
+                                            <li>at least one uppercase and one lowercase character</li>
+                                            <li>at least one digit (0 through 9)</li>
+                                        </ul>
+                                    </span>
+                                </div>
+                                <div class="form-group">
+                                    <label>Confirm Password:</label>
+                                    <input type="password" name="confirmation" class="form-control">
+                                </div>
+
+                                <button type="submit" class="btn btn-primary">Register</button>
+                            </form>
+                        </div>
+                    </div>
+
+                    <div class="modal-content bg-dark" id="modal_login">
+                        <div class="modal-header">
+                            <h4>Login</h4>
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        </div>
+
+                        <div class="modal-body">
+                            <form method="POST" id="form_login" action="/login">
+                                <!-- Hidden input to let Flask know which form was submitted -->
+                                <input type="hidden" name="register_login" value="login">
+                                <div class="form-group">
+                                    <label>Username/E-mail:</label>
+                                    <input type="text" name="username" class="form-control" autocomplete="off">
+                                </div>
+                                <div class="form-group">
+                                    <label>Password:</label>
+                                    <input type="password" name="password" class="form-control">
+                                </div>
+
+                                <button type="submit" class="btn btn-primary">Login</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+
+        <br>
+
+        <div id="error_message"></div>
+
+        <!-- Main block -->
+        {% block main %}{% endblock %}
+    </div>
+
+    <br>
+
+    <!-- FOOTER -->
+    <footer class="container small text-center text-muted">
+        "Powered by <a href="https://coinlib.io/apidocs" target="_blank">Coinlib API</a> and <a href="https://newsapi.org/">News Api</a>"
+    </footer>
+
+    <br>
+</body>
+</html>

@@ -1,0 +1,61 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    News
+{% endblock %}
+
+{% block main %}
+    <div class="container bg-dark">
+        <form class="row" id="news-form" method="GET">
+            <div class="col-6 col-md-5">
+                <p>Show the news about:</p>
+            </div>
+
+            <div class="col-6 col-md-5">
+                <p>Sort the news by:</p>
+            </div>
+
+            <div class="col-6 col-md-5">
+                <select class="custom-select" id="topic-select" name="topic-select">
+                    <option selected value="cryptocurrency">Cryptocurrency</option>
+                </select>
+            </div>
+
+            <div class="col-6 col-md-5">
+                <select class="custom-select" id="sortby-select" name="sortby-select">
+                    <option selected value="publishedAt">Publish date</option>
+                    <option value="popularity">Popularity</option>
+                </select>
+            </div>
+
+            <div class="col-12 col-md-2">
+                <button class="btn btn-primary" type="submit">Search</button>
+            </div>
+        </form>
+
+        <br>
+
+        <div id="news-container">
+            {% for article in news_json.articles %}
+                <a href="{{article.url}}" target="_blank">
+                    <div class="container">
+                        <div class="row news-block">
+                            <div class="col-sm-6 col-md-4 col-lg-3 col-xl-3">
+                                <img src="{{article.urlToImage}}">
+                            </div>
+
+                            <div class="col-sm-6 col-md-8 col-lg-9 col-xl-9">
+                                <h3>{{ article.title }}</h3>
+                                <p class="small text-muted">{{ article.source.name }} • {{ article.publishedAt }}</p>
+                            </div>
+
+                            <div class="col-12 news-desc">
+                                <p>{{ article.description }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

@@ -2,7 +2,7 @@ import requests
 
 from functools import wraps
 from flask import redirect, session
-# from newsapi import NewsApiClient
+from newsapi import NewsApiClient
 
 
 def login_required(f):
